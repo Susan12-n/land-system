@@ -3,7 +3,9 @@ const Land =require("../models/Land.js");
  const getLands = async (req, res) => {
   try {
     const { area, page = 1, limit = 6 } = req.query;
-    const query = area ? { description: { $regex: area, $options: "i" } } : {};
+
+    // Search in the 'area' field 
+    const query = area ? { area: { $regex: area, $options: "i" } } : {};
 
     const lands = await Land.find(query)
       .skip((page - 1) * limit)
@@ -19,10 +21,10 @@ const Land =require("../models/Land.js");
 
 const createLand = async (req, res) => {
   try {
-    const { name, description, price } = req.body;
+    const { name, description, price,area } = req.body;
     const imagePaths = req.files.map(file => file.path);
 
-    const land = new Land({ name, description, price, images: imagePaths });
+    const land = new Land({ name, description, price,area, images: imagePaths,status: req.body.status || "Available", });
     await land.save();
     res.status(201).json(land);
   } catch (err) {
@@ -48,7 +50,17 @@ const deleteLand = async (req, res) => {
   }
 };
 
+const getLandById = async (req, res) => {
+  try {
+    const land = await Land.findById(req.params.id);
+    if (!land) return res.status(404).json({ message: "Land not found" });
+    res.json(land);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 module.exports = {
-  getLands,deleteLand,
+  getLands,deleteLand,getLandById,
   createLand,updateLand
 };

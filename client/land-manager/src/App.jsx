@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
+import LandDetails from "./pages/LandDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/lands/:id" element={<LandDetails />} />
         <Route
   path="/admin"
   element={
