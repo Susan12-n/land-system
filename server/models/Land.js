@@ -4,7 +4,11 @@ const landSchema = new mongoose.Schema({
   name: String,
   description: String,
   price: Number,
-  area: String, 
+  area: String,
+   size: {
+      type: String,
+      required: true,
+    },
   status: {
     type: String,
     enum: ["Available", "Sold"],

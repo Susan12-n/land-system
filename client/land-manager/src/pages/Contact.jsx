@@ -86,7 +86,7 @@ const Contact = () => {
               Need help or have inquiries? We're happy to assist you. Use the form or reach us through our channels below.
             </p>
             <p className="text-sm text-gray-600 mb-2"><strong>Email:</strong> support@landwise.co.ke</p>
-            <p className="text-sm text-gray-600 mb-2"><strong>Phone:</strong> +254 712 345 678</p>
+            <p className="text-sm text-gray-600 mb-2"><strong>Phone:</strong> +254 712 461 219</p>
             <p className="text-sm text-gray-600"><strong>Location:</strong> Siaya, Kenya</p>
           </div>
 

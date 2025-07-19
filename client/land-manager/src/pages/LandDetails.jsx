@@ -51,6 +51,7 @@ const LandDetails = () => {
         {/* Details */}
         <div className="flex flex-col justify-center">
           <h2 className="text-3xl font-bold text-green-700 mb-4">{land.name}</h2>
+          <p className="text-lg text-gray-700"><strong>Size:</strong> {land.size}</p>
           <p className="text-lg text-gray-700 mb-2">
             <strong>Area:</strong> {land.area || "N/A"}
           </p>

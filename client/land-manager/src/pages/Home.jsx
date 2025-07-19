@@ -82,6 +82,7 @@ const Home = () => {
       className="w-full h-48 object-cover rounded mb-2"
     />
     <h3 className="text-lg font-semibold">{land.name}</h3>
+    <p className="text-sm text-gray-500">Size: <strong>{land.size}</strong></p>
     <p className="text-sm text-gray-600">{land.description.slice(0, 50)}...</p>
     <p className="text-sm text-gray-500">Area: <strong>{land.area}</strong></p>
     <p className="text-green-600 font-bold mt-1">${land.price}</p>

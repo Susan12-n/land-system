@@ -5,6 +5,7 @@ const Admin = () => {
   const [lands, setLands] = useState([]);
   const [form, setForm] = useState({
     name: "",
+    size: "",
     description: "",
     price: "",
     area: "",
@@ -36,7 +37,7 @@ const Admin = () => {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    setForm({ name: "", description: "", price: "", area: "", status: "Available" });
+    setForm({ name: "",size :"", description: "", price: "", area: "", status: "Available" });
     setImages([]);
     fetchLands();
   };
@@ -62,6 +63,15 @@ const Admin = () => {
             required
             className="block w-full p-3 border rounded focus:ring-2 focus:ring-green-500"
           />
+
+          <input
+  type="text"
+  placeholder="Land Size (e.g. 50x100 or 1 Acre)"
+  value={form.size}
+  onChange={(e) => setForm({ ...form, size: e.target.value })}
+  required
+  className="block w-full p-2 border rounded"
+/>
 
           <textarea
             placeholder="Description"

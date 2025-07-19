@@ -21,10 +21,10 @@ const Land =require("../models/Land.js");
 
 const createLand = async (req, res) => {
   try {
-    const { name, description, price,area } = req.body;
+    const { name,size, description, price,area } = req.body;
     const imagePaths = req.files.map(file => file.path);
 
-    const land = new Land({ name, description, price,area, images: imagePaths,status: req.body.status || "Available", });
+    const land = new Land({ name,size, description, price,area, images: imagePaths,status: req.body.status || "Available", });
     await land.save();
     res.status(201).json(land);
   } catch (err) {
