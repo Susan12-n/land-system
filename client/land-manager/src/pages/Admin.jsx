@@ -48,15 +48,16 @@ const Admin = () => {
   };
 
   const deleteLand = async (id) => {
-    try {
-      await api.delete(`/lands/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      await fetchLands(); // refresh after deletion
-    } catch (err) {
-      console.error("Error deleting land:", err);
-    }
-  };
+  try {
+    await api.delete(`/lands/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    fetchLands(); // Refresh the list after deletion
+  } catch (error) {
+    console.error("Error deleting land:", error.response?.data || error.message);
+    alert("Failed to delete land");
+  }
+};
 
   return (
     <div className="p-6 min-h-screen bg-gray-50">
