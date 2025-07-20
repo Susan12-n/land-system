@@ -43,8 +43,9 @@ const Admin = () => {
       setImages([]);
       await fetchLands(); // wait to avoid duplicate renders
     } catch (err) {
-      console.error("Error posting land:", err);
-    }
+  console.error("Error posting land:", err.response?.data || err.message || err);
+  alert("Failed to post land: " + (err.response?.data?.message || err.message));
+}
   };
 
   const deleteLand = async (id) => {
