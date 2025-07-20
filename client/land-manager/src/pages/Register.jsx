@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -30,17 +29,21 @@ const Register = () => {
     }
 
     try {
-      const { name, email, password } = form;
-      await axios.post(`${baseURL}/auth/register`, {
-        name,
-        email,
-        password,
-      });
-      alert("Registration successful. You can now login.");
-      navigate("/login");
-    } catch (err) {
-      alert(err.response?.data?.message || err.message || "Registration failed");
-    }
+       const { name, email, password } = form;
+
+    await api.post("/auth/register", {
+      name,
+      email,
+      password,
+    });
+
+    alert("Registration successful. You can now login.");
+    navigate("/login");
+
+  } catch (err) {
+    console.error("Registration Error:", err);
+    alert(err.response?.data?.message || err.message || "Registration failed");
+  }
   };
 
   return (

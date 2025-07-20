@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import api from "../api"; 
 
 const Admin = () => {
   const [lands, setLands] = useState([]);
@@ -21,9 +22,13 @@ const Admin = () => {
   }, []);
 
   const fetchLands = async () => {
-    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/lands`);
+  try {
+    const res = await api.get("/lands");
     setLands(res.data.lands || res.data);
-  };
+  } catch (error) {
+    console.error("Error fetching lands:", error);
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
