@@ -1,30 +1,55 @@
-# Node modules
+# ====================
+# Node.js Dependencies
+# ====================
 node_modules/
+.pnpm/
 
-# Build output
+# ====================
+# Build Output
+# ====================
 dist/
 build/
 
+# ====================
 # Logs
+# ====================
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# dotenv environment files
+# ====================
+# Environment Variables
+# ====================
 .env
-.env.local
+.env.*    # includes .env.local, .env.production, etc.
 
-# IDE files
-.vscode/
-.idea/
+# ====================
+# Coverage
+# ====================
+coverage/
 
-# OS generated
+# ====================
+# System Files
+# ====================
 .DS_Store
 Thumbs.db
 
-# Optional if using coverage tools
-coverage/
+# ====================
+# IDE Configurations
+# ====================
+.vscode/
+.idea/
 
-# Optional: Ignore SQLite or other local databases
+# ====================
+# Database Files (optional)
+# ====================
 *.sqlite
 *.db
+
+# ====================
+# Local Dev Files
+# ====================
+*.log
+*.bak
+*.swp
