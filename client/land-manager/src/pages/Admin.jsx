@@ -21,7 +21,7 @@ const Admin = () => {
   }, []);
 
   const fetchLands = async () => {
-    const res = await axios.get("http://localhost:5000/api/lands");
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/lands`);
     setLands(res.data.lands || res.data);
   };
 
@@ -33,7 +33,7 @@ const Admin = () => {
     );
     for (let img of images) formData.append("images", img);
 
-    await axios.post("http://localhost:5000/api/lands", formData, {
+    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/lands`, formData, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -43,7 +43,7 @@ const Admin = () => {
   };
 
   const deleteLand = async (id) => {
-    await axios.delete(`http://localhost:5000/api/lands/${id}`, {
+    await axios.delete(`${baseURL}/lands/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     fetchLands();

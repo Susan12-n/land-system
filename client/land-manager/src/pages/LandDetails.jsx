@@ -10,7 +10,7 @@ const LandDetails = () => {
   useEffect(() => {
     const fetchLand = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/lands/${id}`);
+        const res = await axios.get(`${baseURL}/lands/${id}`);
         setLand(res.data);
       } catch (err) {
         console.error("Error fetching land details:", err);
@@ -37,15 +37,15 @@ const LandDetails = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Image */}
         <div>
-          <img
-            src={
-              land.images?.[0]
-                ? `http://localhost:5000/${land.images[0]}`
-                : "https://via.placeholder.com/800x400?text=No+Image"
-            }
-            alt={land.name}
-            className="w-full h-96 object-cover rounded"
-          />
+        <img
+  src={
+    land.images?.[0]
+      ? `${import.meta.env.VITE_IMAGE_UPLOAD_URL}/${land.images[0]}`
+      : "https://via.placeholder.com/800x400?text=No+Image"
+  }
+  alt={land.name}
+  className="w-full h-96 object-cover rounded"
+/>
         </div>
 
         {/* Details */}

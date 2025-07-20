@@ -14,7 +14,7 @@ const Home = () => {
 
   const fetchLands = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/lands`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/lands`, {
         params: { area, page, limit: LIMIT },
       });
       setLands(res.data.lands);
@@ -77,7 +77,7 @@ const Home = () => {
             <Link to={`/lands/${land._id}`}>
   <div className="bg-white rounded shadow p-4 hover:shadow-lg transition">
     <img
-      src={`http://localhost:5000/${land.images[0]}`}
+      src={`import.meta.env.VITE_IMAGE_UPLOAD_URL/${land.images[0]}`}
       alt={land.name}
       className="w-full h-48 object-cover rounded mb-2"
     />
