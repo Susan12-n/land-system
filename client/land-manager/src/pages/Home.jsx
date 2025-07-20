@@ -14,7 +14,7 @@ const Home = () => {
 
   const fetchLands = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/lands", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/lands`, {
         params: { area, page, limit: LIMIT },
       });
       setLands(res.data.lands);
