@@ -79,7 +79,7 @@ Copy
 Edit
 PORT=5000
 MONGO_URI=your_mongo_db_uri
-JWT_SECRET=your_secret
+JWT_SECRET=secrete_password
 🧼 Usage
 bash
 Copy
