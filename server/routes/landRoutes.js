@@ -6,14 +6,15 @@ const { authenticate, isAdmin } =require( "../middleware/authMiddleware.js");
 const router = express.Router();
 
 const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) =>
+    cb(null, Date.now() + "-" + file.originalname),
 });
 const upload = multer({ storage });
 
 router.get("/", getLands);
 router.get("/:id", getLandById);
-router.post("/", authenticate, isAdmin, upload.array("images", 5), createLand);
+router.post("/", authenticate, isAdmin, upload.array("images"), createLand);
 router.put("/:id", authenticate, isAdmin, updateLand);
 router.delete("/:id", authenticate, isAdmin, deleteLand);
 
