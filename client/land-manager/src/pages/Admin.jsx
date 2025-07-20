@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import api from "../../api"; 
+import api from "../../api";
 
 const Admin = () => {
   const [lands, setLands] = useState([]);
@@ -22,36 +21,41 @@ const Admin = () => {
   }, []);
 
   const fetchLands = async () => {
-  try {
-    const res = await api.get("/lands");
-    setLands(res.data.lands || res.data);
-  } catch (error) {
-    console.error("Error fetching lands:", error);
-  }
-};
+    try {
+      const res = await api.get("/lands");
+      setLands(res.data.lands || res.data);
+    } catch (error) {
+      console.error("Error fetching lands:", error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    Object.entries(form).forEach(([key, value]) =>
-      formData.append(key, value)
-    );
+    Object.entries(form).forEach(([key, value]) => formData.append(key, value));
     for (let img of images) formData.append("images", img);
 
-    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/lands`, formData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    setForm({ name: "",size :"", description: "", price: "", area: "", status: "Available" });
-    setImages([]);
-    fetchLands();
+    try {
+      await api.post("/lands", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setForm({ name: "", size: "", description: "", price: "", area: "", status: "Available" });
+      setImages([]);
+      await fetchLands(); // wait to avoid duplicate renders
+    } catch (err) {
+      console.error("Error posting land:", err);
+    }
   };
 
   const deleteLand = async (id) => {
-    await axios.delete(`${baseURL}/lands/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    fetchLands();
+    try {
+      await api.delete(`/lands/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      await fetchLands(); // refresh after deletion
+    } catch (err) {
+      console.error("Error deleting land:", err);
+    }
   };
 
   return (
@@ -68,16 +72,14 @@ const Admin = () => {
             required
             className="block w-full p-3 border rounded focus:ring-2 focus:ring-green-500"
           />
-
           <input
-  type="text"
-  placeholder="Land Size (e.g. 50x100 or 1 Acre)"
-  value={form.size}
-  onChange={(e) => setForm({ ...form, size: e.target.value })}
-  required
-  className="block w-full p-2 border rounded"
-/>
-
+            type="text"
+            placeholder="Land Size (e.g. 50x100 or 1 Acre)"
+            value={form.size}
+            onChange={(e) => setForm({ ...form, size: e.target.value })}
+            required
+            className="block w-full p-2 border rounded"
+          />
           <textarea
             placeholder="Description"
             value={form.description}
@@ -85,7 +87,6 @@ const Admin = () => {
             required
             className="block w-full p-3 border rounded focus:ring-2 focus:ring-green-500"
           />
-
           <input
             type="number"
             placeholder="Price"
@@ -94,7 +95,6 @@ const Admin = () => {
             required
             className="block w-full p-3 border rounded focus:ring-2 focus:ring-green-500"
           />
-
           <input
             type="text"
             placeholder="Area"
@@ -102,7 +102,6 @@ const Admin = () => {
             onChange={(e) => setForm({ ...form, area: e.target.value })}
             className="block w-full p-3 border rounded focus:ring-2 focus:ring-green-500"
           />
-
           <select
             value={form.status}
             onChange={(e) => setForm({ ...form, status: e.target.value })}
@@ -111,14 +110,12 @@ const Admin = () => {
             <option value="Available">Available</option>
             <option value="Sold">Sold</option>
           </select>
-
           <input
             type="file"
             multiple
             onChange={(e) => setImages(e.target.files)}
             className="block w-full"
           />
-
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700 transition"
@@ -136,7 +133,6 @@ const Admin = () => {
           <div key={land._id} className="bg-white p-4 shadow rounded">
             <h4 className="text-lg font-bold">{land.name}</h4>
             <p className="text-sm text-gray-600">{land.area}</p>
-
             <span
               className={`inline-block mt-2 px-2 py-1 text-xs font-semibold rounded ${
                 land.status === "Available"
@@ -146,10 +142,8 @@ const Admin = () => {
             >
               {land.status}
             </span>
-
             <p className="mt-2 text-gray-700">{land.description}</p>
             <p className="text-green-600 font-bold mt-1">KES {land.price}</p>
-
             <button
               onClick={() => deleteLand(land._id)}
               className="mt-3 text-sm text-red-600 hover:underline"
