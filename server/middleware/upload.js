@@ -6,9 +6,8 @@ const cloudinary = require("../config/cloudinary");
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "land-images",
+    folder: "land_uploads",
     allowed_formats: ["jpg", "jpeg", "png"],
-    transformation: [{ width: 800, height: 600, crop: "limit" }],
   },
 });
 

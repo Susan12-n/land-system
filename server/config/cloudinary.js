@@ -1,5 +1,6 @@
 // config/cloudinary.js
 const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -7,4 +8,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-module.exports = cloudinary;
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "land_uploads", 
+    allowed_formats: ["jpg", "jpeg", "png"],
+  },
+});
+
+module.exports = { cloudinary, storage };
