@@ -37,25 +37,30 @@ const Admin = () => {
     setImagePreviews(previews);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    Object.entries(form).forEach(([key, value]) => formData.append(key, value));
-    for (let img of images) formData.append("images", img);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      await api.post("/lands", formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setForm({ name: "", size: "", description: "", price: "", area: "", status: "Available" });
-      setImages([]);
-      setImagePreviews([]);
-      await fetchLands();
-    } catch (err) {
-      console.error("Error posting land:", err.response?.data || err.message || err);
-      alert("Failed to post land: " + (err.response?.data?.message || err.message));
-    }
-  };
+  if (!images || images.length === 0) {
+    return alert("Please upload at least one image.");
+  }
+
+  const formData = new FormData();
+  Object.entries(form).forEach(([key, value]) => formData.append(key, value));
+  for (let img of images) formData.append("images", img);
+
+  try {
+    await api.post("/lands", formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setForm({ name: "", size: "", description: "", price: "", area: "", status: "Available" });
+    setImages([]);
+    setImagePreviews([]);
+    await fetchLands();
+  } catch (err) {
+    console.error("Error posting land:", err.response?.data || err.message || err);
+    alert("Failed to post land: " + (err.response?.data?.message || err.message));
+  }
+};
 
   const deleteLand = async (id) => {
     try {
