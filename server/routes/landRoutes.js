@@ -2,6 +2,7 @@ const express =require("express");
 const multer =require( "multer");
 const { createLand, getLands, updateLand,getLandById , deleteLand }=require( "../controllers/landController.js");
 const { authenticate, isAdmin } =require( "../middleware/authMiddleware.js");
+const upload = require("../middleware/upload");
 
 const router = express.Router();
 

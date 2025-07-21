@@ -23,29 +23,18 @@ const createLand = async (req, res) => {
   try {
     const { name, size, description, price, area, status } = req.body;
 
-    // Basic validation
     if (!name || !size || !description || !price || !area || !status) {
-      console.log("Missing fields:", req.body);
       return res.status(400).json({ message: "All fields are required" });
     }
 
     if (!req.files || req.files.length === 0) {
-      console.log("No images uploaded");
       return res.status(400).json({ message: "At least one image is required" });
     }
 
-    // ✅ Cloudinary stores full URLs in `file.path`
-    const images = req.files.map((file) => file.path);
+    // Cloudinary URLs are in file.path
+    const images = req.files.map(file => file.path);
 
-    const land = new Land({
-      name,
-      size,
-      description,
-      price,
-      area,
-      status,
-      images, // array of cloudinary URLs
-    });
+    const land = new Land({ name, size, description, price, area, status, images });
 
     await land.save();
     res.status(201).json({ message: "Land posted successfully", land });
