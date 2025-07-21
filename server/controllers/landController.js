@@ -31,8 +31,7 @@ const createLand = async (req, res) => {
       return res.status(400).json({ message: "At least one image is required" });
     }
 
-    // ✅ Get Cloudinary URLs
-    const images = req.files.map((file) => file.path); // ← important!
+    const images = req.files.map(file => file.path);
 
     const land = new Land({
       name,
@@ -41,16 +40,17 @@ const createLand = async (req, res) => {
       price,
       area,
       status,
-      images, // array of Cloudinary URLs
+      images,
     });
 
     await land.save();
     res.status(201).json({ message: "Land posted successfully", land });
   } catch (err) {
-    console.error("Error posting land:", err);
-    res.status(500).json({ message: "Server error" });
+  console.error("Error creating land:", err.message || err);
+  return res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 
 
