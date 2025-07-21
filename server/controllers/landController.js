@@ -39,8 +39,8 @@ const createLand = async (req, res) => {
     await land.save();
     res.status(201).json({ message: "Land posted successfully", land });
   } catch (err) {
-    console.error("Error posting land:", err);
-    res.status(500).json({ message: "Server error" });
+   console.error("Error posting land:", err); 
+return res.status(500).json({ message: "Server error" });
   }
 };
 
