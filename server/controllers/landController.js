@@ -34,8 +34,8 @@ const createLand = async (req, res) => {
       return res.status(400).json({ message: "At least one image is required" });
     }
 
-    //Construct image URLs
-    const images = req.files.map((file) => `uploads/${file.filename}`);
+    // ✅ Cloudinary stores full URLs in `file.path`
+    const images = req.files.map((file) => file.path);
 
     const land = new Land({
       name,
@@ -44,7 +44,7 @@ const createLand = async (req, res) => {
       price,
       area,
       status,
-      images,
+      images, // array of cloudinary URLs
     });
 
     await land.save();

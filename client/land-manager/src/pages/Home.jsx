@@ -77,14 +77,11 @@ const Home = () => {
             <Link to={`/lands/${land._id}`}>
   <div className="bg-white rounded shadow p-4 hover:shadow-lg transition">
     <img
-  src={
-    land.images?.[0]
-      ? `https://land-system.onrender.com/${land.images[0]}`
-      : "https://via.placeholder.com/800x400?text=No+Image"
-  }
+  src={land.images[0]}
   alt={land.name}
   className="w-full h-48 object-cover rounded mb-2"
 />
+
     <h3 className="text-lg font-semibold">{land.name}</h3>
     <p className="text-sm text-gray-500">Size: <strong>{land.size}</strong></p>
     <p className="text-sm text-gray-600">{land.description.slice(0, 50)}...</p>
