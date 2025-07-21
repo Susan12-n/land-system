@@ -12,6 +12,7 @@ const Admin = () => {
     status: "Available",
   });
   const [images, setImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [visibleCount, setVisibleCount] = useState(5);
 
   const token = localStorage.getItem("token");
@@ -29,6 +30,13 @@ const Admin = () => {
     }
   };
 
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImages(files);
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setImagePreviews(previews);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -41,24 +49,25 @@ const Admin = () => {
       });
       setForm({ name: "", size: "", description: "", price: "", area: "", status: "Available" });
       setImages([]);
-      await fetchLands(); // wait to avoid duplicate renders
+      setImagePreviews([]);
+      await fetchLands();
     } catch (err) {
-  console.error("Error posting land:", err.response?.data || err.message || err);
-  alert("Failed to post land: " + (err.response?.data?.message || err.message));
-}
+      console.error("Error posting land:", err.response?.data || err.message || err);
+      alert("Failed to post land: " + (err.response?.data?.message || err.message));
+    }
   };
 
   const deleteLand = async (id) => {
-  try {
-    await api.delete(`/lands/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    fetchLands(); // Refresh the list after deletion
-  } catch (error) {
-    console.error("Error deleting land:", error.response?.data || error.message);
-    alert("Failed to delete land");
-  }
-};
+    try {
+      await api.delete(`/lands/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchLands();
+    } catch (error) {
+      console.error("Error deleting land:", error.response?.data || error.message);
+      alert("Failed to delete land");
+    }
+  };
 
   return (
     <div className="p-6 min-h-screen bg-gray-50">
@@ -115,9 +124,21 @@ const Admin = () => {
           <input
             type="file"
             multiple
-            onChange={(e) => setImages(e.target.files)}
+            onChange={handleImageChange}
             className="block w-full"
           />
+          {/* Show image previews */}
+          <div className="grid grid-cols-3 gap-2 mt-2">
+            {imagePreviews.map((src, index) => (
+              <img
+                key={index}
+                src={src}
+                alt="preview"
+                className="w-full h-24 object-cover rounded border"
+              />
+            ))}
+          </div>
+
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700 transition"
@@ -133,6 +154,13 @@ const Admin = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
         {lands.slice(0, visibleCount).map((land) => (
           <div key={land._id} className="bg-white p-4 shadow rounded">
+            {land.images && land.images.length > 0 && (
+              <img
+                src={land.images[0]}
+                alt={land.name}
+                className="w-full h-48 object-cover rounded mb-3"
+              />
+            )}
             <h4 className="text-lg font-bold">{land.name}</h4>
             <p className="text-sm text-gray-600">{land.area}</p>
             <span
