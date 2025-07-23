@@ -31,11 +31,12 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log(" MongoDB connected");
 
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
+    const PORT = process.env.PORT || 10000; // Render sets PORT env variable
+    app.listen(PORT, "0.0.0.0", () => { // Listen on all interfaces
       console.log(`Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
     console.error(" MongoDB connection error:", err.message);
   });
+// ...existing code...

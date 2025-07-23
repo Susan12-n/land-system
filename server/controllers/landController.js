@@ -56,6 +56,7 @@ const createLand = async (req, res) => {
     console.error("Error creating land:", err); // log full error object
     return res.status(500).json({ message: "Server error", error: err.message, stack: err.stack });
   }
+
 };
 
 
