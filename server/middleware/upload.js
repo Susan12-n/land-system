@@ -7,7 +7,6 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "land-images",
     allowed_formats: ["jpg", "png", "jpeg"],
-    public_id: (req, file) => `${Date.now()}-${file.originalname}`,
   },
 });
 

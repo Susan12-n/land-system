@@ -1,4 +1,5 @@
 const Land =require("../models/Land.js");
+const cloudinary = require("../config/cloudinary"); 
 
  const getLands = async (req, res) => {
   try {
@@ -31,10 +32,13 @@ const createLand = async (req, res) => {
       return res.status(400).json({ message: "At least one image is required" });
     }
 
-    //  image URL extraction from Cloudinary via multer-storage-cloudinary
-    const imageUrls = req.files.map((file) => file.path);
+    // Upload each image to Cloudinary and collect the URLs
+    const imageUrls = [];
+    for (const file of req.files) {
+      const uploadResult = await cloudinary.uploader.upload(file.path);
+      imageUrls.push(uploadResult.secure_url);
+    }
 
-    // imageUrls correctly 
     const land = new Land({
       name,
       size,
@@ -47,10 +51,11 @@ const createLand = async (req, res) => {
 
     await land.save();
     res.status(201).json({ message: "Land posted successfully", land });
+
   } catch (err) {
-  console.error("Server Error:", err); // full log
-  return res.status(500).json({ message: "Server error", error: err.message });
-}
+    console.error("Error creating land:", err.message || err);
+    return res.status(500).json({ message: "Server error", error: err.message });
+  }
 };
 
 
