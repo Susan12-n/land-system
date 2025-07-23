@@ -7,25 +7,24 @@ process.on("unhandledRejection", (reason, promise) => {
   process.exit(1);
 });
 
-
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
 
-const authRoutes = require("./routes/authRoutes");
-const landRoutes = require("./routes/landRoutes");
-
 dotenv.config();
 
 const app = express();
 
-// ✅ Middleware
 app.use(cors({
-  origin: "https://land-system.vercel.app", // ✅ Replace with your frontend domain
+  origin: "https://land-system.vercel.app", 
   credentials: true,
 }));
+
+const authRoutes = require("./routes/authRoutes");
+const landRoutes = require("./routes/landRoutes");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -49,4 +48,3 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => {
     console.error(" MongoDB connection error:", err.message);
   });
-// ...existing code...
