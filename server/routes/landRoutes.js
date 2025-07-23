@@ -7,7 +7,7 @@ const {
   deleteLand,
 } = require("../controllers/landController");
 const { authenticate, isAdmin } = require("../middleware/authMiddleware");
-const upload = require("../middleware/upload"); // ✅ now using Cloudinary-based multer
+const upload = require("../middleware/upload"); //  now using Cloudinary-based multer
 
 const router = express.Router();
 

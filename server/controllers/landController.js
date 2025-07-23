@@ -31,8 +31,10 @@ const createLand = async (req, res) => {
       return res.status(400).json({ message: "At least one image is required" });
     }
 
-    const images = req.files.map(file => file.path);
+    //  image URL extraction from Cloudinary via multer-storage-cloudinary
+    const imageUrls = req.files.map((file) => file.path);
 
+    // imageUrls correctly 
     const land = new Land({
       name,
       size,
@@ -40,16 +42,17 @@ const createLand = async (req, res) => {
       price,
       area,
       status,
-      images,
+      images: imageUrls,
     });
 
     await land.save();
     res.status(201).json({ message: "Land posted successfully", land });
   } catch (err) {
-  console.error("Error creating land:", err.message || err);
-  return res.status(500).json({ message: "Server error", error: err.message });
+    console.error("Error creating land:", err.message || err);
+    return res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 
 
